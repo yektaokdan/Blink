@@ -1,24 +1,12 @@
-//
-//  SceneDelegate.swift
-//  Blink
-//
-//  Created by trc vpn on 26.06.2024.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let homeVC = UINavigationController(rootViewController: HomeVC())
-        let newsVC = UINavigationController(rootViewController: NewsVC())
-        let searchVC = UINavigationController(rootViewController: SearchVC())
-        let notificationVC = UINavigationController(rootViewController: NotificationVC())
         window.makeKeyAndVisible()
         window.rootViewController = createTabbar()
         window.overrideUserInterfaceStyle = .dark
@@ -26,15 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
     }
     
- 
-    
     func configureNavigationBar(){
         UINavigationBar.appearance().tintColor = .appPink
     }
     
     func createHomeNC() -> UINavigationController {
         let homeVC = HomeVC()
-        homeVC.tabBarItem = UITabBarItem(title: "Anasayfa", image: UIImage(systemName: "house"), tag: 0)
+        homeVC.tabBarItem = UITabBarItem(title: "Anasayfa", image: UIImage(systemName: "house"), tag: 1)
 
         // Logo'yu navigation bar'a eklemek için bir UIImageView oluşturun.
         let logoImage = UIImage(named: "letter-b") // Burada logo dosyanızın adını yazın.
@@ -47,32 +33,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return UINavigationController(rootViewController: homeVC)
     }
 
-    
     func createNewsNC() -> UINavigationController {
-        let settingsVC = NewsVC()
-//        settingsVC.title = "Ayarlar"
-        settingsVC.tabBarItem = UITabBarItem(title: "Ayarlar", image: UIImage(systemName: "gear"), tag: 1)
-        return UINavigationController(rootViewController: settingsVC)
+        let newsVC = NewsVC()
+        newsVC.tabBarItem = UITabBarItem(title: "Haberler", image: UIImage(systemName: "newspaper"), tag: 0)
+        return UINavigationController(rootViewController: newsVC)
     }
     
     func createSearchNC() -> UINavigationController {
         let searchVC = SearchVC()
-//        homeVC.title = "Anasayfa"
         searchVC.tabBarItem = UITabBarItem(title: "Arama", image: UIImage(systemName: "magnifyingglass"), tag: 2)
         return UINavigationController(rootViewController: searchVC)
     }
     
-    func createNotificationVC() -> UINavigationController {
-        let notificationVC = NotificationVC()
-//        settingsVC.title = "Ayarlar"
-        notificationVC.tabBarItem = UITabBarItem(title: "Bildirimler", image: UIImage(systemName: "bell"), tag: 3)
-        return UINavigationController(rootViewController: notificationVC)
-    }
-    
-    func createTabbar() -> UITabBarController{
+    func createTabbar() -> UITabBarController {
         let tabbar = UITabBarController()
         UITabBar.appearance().tintColor = .appPink
-        tabbar.viewControllers = [createHomeNC(), createNewsNC(),createSearchNC(),createNotificationVC()]
+        tabbar.viewControllers = [createNewsNC(), createHomeNC(), createSearchNC()]
         return tabbar
     }
 
@@ -103,7 +79,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
-
