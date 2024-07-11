@@ -48,7 +48,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createTabbar() -> UITabBarController {
         let tabbar = UITabBarController()
         UITabBar.appearance().tintColor = .appPink
-        tabbar.viewControllers = [createNewsNC(), createHomeNC(), createSearchNC()]
+        tabbar.viewControllers = [createNewsNC(), createHomeNC(), createSearchNC()] // Anasayfa ortada duracak
+        tabbar.selectedIndex = 1 // Anasayfa sekmesini varsayılan olarak seç
         return tabbar
     }
 
