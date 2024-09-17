@@ -28,6 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         imageView.contentMode = .scaleAspectFit
 
         // TitleView olarak ayarlayın.
+    
         homeVC.navigationItem.titleView = imageView
 
         return UINavigationController(rootViewController: homeVC)
@@ -35,7 +36,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func createNewsNC() -> UINavigationController {
         let newsVC = NewsVC()
-        newsVC.tabBarItem = UITabBarItem(title: "Haberler", image: UIImage(systemName: "newspaper"), tag: 0)
+        newsVC.tabBarItem = UITabBarItem(title: "Kategoriler", image: UIImage(systemName: "list.bullet"), tag: 0)
+        let logoImage = UIImage(named: "letter-b") // Burada logo dosyanızın adını yazın.
+        let imageView = UIImageView(image: logoImage)
+        imageView.contentMode = .scaleAspectFit
+        newsVC.navigationItem.titleView = imageView
         return UINavigationController(rootViewController: newsVC)
     }
     

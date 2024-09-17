@@ -1,6 +1,12 @@
-import Foundation
+//
+//  CategoryDetailVM.swift
+//  Blink
+//
+//  Created by trc vpn on 17.09.2024.
+//
 
-class HomeVM {
+import Foundation
+class CategoryDetailVM {
     let rssService = RSSService()
     let rssParser = RSSParser()
     private var newsItems: [RSSItem] = [] {
@@ -10,8 +16,8 @@ class HomeVM {
     }
     var onNewsItemsUpdated: (() -> Void)?
     
-    func fetchRSSData() {
-        guard let url = URL(string: "https://www.ahaber.com.tr/rss/anasayfa.xml") else { return }
+    func fetchRSSData(rssURL: String) {
+        guard let url = URL(string: rssURL) else { return }
         
         // Mevcut haberleri temizle
         newsItems = []

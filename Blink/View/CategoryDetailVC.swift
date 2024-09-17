@@ -1,19 +1,33 @@
+//
+//  CategoryDetailVC.swift
+//  Blink
+//
+//  Created by trc vpn on 17.09.2024.
+//
+
 import UIKit
 
-class HomeVC: UIViewController {
+class CategoryDetailVC: UIViewController {
     private var newsCollectionView: UICollectionView!
-    let vm = HomeVM()
+    var categoryTitle: String?
+    var rssURL: String?
+    private let viewModel = CategoryDetailVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = .systemBackground
         setupNewsCollectionView()
         
-        vm.onNewsItemsUpdated = { [weak self] in
+        viewModel.onNewsItemsUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.newsCollectionView.reloadData()
             }
         }
-        vm.fetchRSSData()
+        
+        if let rssURL = rssURL {
+            viewModel.fetchRSSData(rssURL: rssURL)
+        }
     }
     
     private func setupNewsCollectionView() {
@@ -40,16 +54,16 @@ class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CategoryDetailVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return vm.numberOfItems()
+        return viewModel.numberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let item = vm.item(at: indexPath)
+        let item = viewModel.item(at: indexPath)
         cell.configure(with: item.imageUrl, title: item.title)
         return cell
     }
@@ -62,9 +76,11 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = vm.item(at: indexPath)
+        let item = viewModel.item(at: indexPath)
         if let url = URL(string: item.link) {
             UIApplication.shared.open(url)
         }
     }
 }
+
+
