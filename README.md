@@ -55,14 +55,3 @@
 - **didUpdateNews**: Yeni haberler alındığında tetiklenir.
 - **didSaveFavorite**: Bir haber favorilere eklendiğinde tetiklenir.
 
-## Başlıklar ve Alt Başlıklar
-
-**Başlık 1**: Haberleri Kaçırma  
-**Alt Başlık 1**: En son haberleri anında görüntüle, kategorilere göre takip et.
-
-**Başlık 2**: Favorilerini Sakla  
-**Alt Başlık 2**: İlginç bulduğun haberleri favorilerine ekle ve daha sonra oku.
-
----
-
-Bu dosya, projenin kurulumu, kullanımı ve kod yapısı hakkında temel bilgileri içerir.
