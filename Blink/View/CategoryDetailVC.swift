@@ -1,10 +1,3 @@
-//
-//  CategoryDetailVC.swift
-//  Blink
-//
-//  Created by trc vpn on 17.09.2024.
-//
-
 import UIKit
 
 class CategoryDetailVC: UIViewController {
@@ -15,7 +8,7 @@ class CategoryDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = .systemBackground
         setupNewsCollectionView()
         
@@ -28,6 +21,10 @@ class CategoryDetailVC: UIViewController {
         if let rssURL = rssURL {
             viewModel.fetchRSSData(rssURL: rssURL)
         }
+        
+        // Uzun basma gesture recognizer ekliyoruz
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        newsCollectionView.addGestureRecognizer(longPressRecognizer)
     }
     
     private func setupNewsCollectionView() {
@@ -51,6 +48,32 @@ class CategoryDetailVC: UIViewController {
             newsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             newsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    @objc private func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        let location = gesture.location(in: newsCollectionView)
+        if let indexPath = newsCollectionView.indexPathForItem(at: location), gesture.state == .began {
+            let item = viewModel.item(at: indexPath)
+            showFavoritePopup(for: item)
+        }
+    }
+    
+    private func showFavoritePopup(for item: RSSItem) {
+        let alertController = UIAlertController(title: "Favorilere Ekle", message: "Bu haberi favorilere eklemek istiyor musunuz?", preferredStyle: .alert)
+        
+        let addAction = UIAlertAction(title: "Evet", style: .default) { [weak self] _ in
+            self?.addToFavorites(item: item)
+        }
+        let cancelAction = UIAlertAction(title: "Hayır", style: .cancel, handler: nil)
+        
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func addToFavorites(item: RSSItem) {
+        FavoriteManager.shared.addFavorite(item: item)
     }
 }
 
@@ -82,5 +105,3 @@ extension CategoryDetailVC: UICollectionViewDelegate, UICollectionViewDataSource
         }
     }
 }
-
-

@@ -45,8 +45,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func createSearchNC() -> UINavigationController {
-        let searchVC = SearchVC()
-        searchVC.tabBarItem = UITabBarItem(title: "Arama", image: UIImage(systemName: "magnifyingglass"), tag: 2)
+        let searchVC = FavoriteVC()
+        searchVC.tabBarItem = UITabBarItem(title: "Favoriler", image: UIImage(systemName: "star"), tag: 2)
+        let logoImage = UIImage(named: "letter-b") // Burada logo dosyanızın adını yazın.
+        let imageView = UIImageView(image: logoImage)
+        imageView.contentMode = .scaleAspectFit
+        searchVC.navigationItem.titleView = imageView
         return UINavigationController(rootViewController: searchVC)
     }
     

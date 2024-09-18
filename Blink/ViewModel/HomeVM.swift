@@ -5,6 +5,11 @@ class HomeVM {
     let rssParser = RSSParser()
     private var newsItems: [RSSItem] = [] {
         didSet {
+            filteredNewsItems = newsItems
+        }
+    }
+    private(set) var filteredNewsItems: [RSSItem] = [] {
+        didSet {
             self.onNewsItemsUpdated?()
         }
     }
@@ -12,12 +17,9 @@ class HomeVM {
     
     func fetchRSSData() {
         guard let url = URL(string: "https://www.ahaber.com.tr/rss/anasayfa.xml") else { return }
-        
-        // Mevcut haberleri temizle
         newsItems = []
         self.onNewsItemsUpdated?()
         
-        // Yeni verileri çek ve ekle
         rssService.fetchRSSFeed(url: url) { [weak self] result in
             switch result {
             case .success(let data):
@@ -33,10 +35,18 @@ class HomeVM {
     }
     
     func numberOfItems() -> Int {
-        return newsItems.count
+        return filteredNewsItems.count
     }
     
     func item(at indexPath: IndexPath) -> RSSItem {
-        return newsItems[indexPath.row]
+        return filteredNewsItems[indexPath.row]
+    }
+    
+    func filterNews(with query: String) {
+        if query.isEmpty {
+            filteredNewsItems = newsItems
+        } else {
+            filteredNewsItems = newsItems.filter { $0.title.lowercased().contains(query.lowercased()) }
+        }
     }
 }
